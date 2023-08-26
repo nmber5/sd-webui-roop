@@ -73,7 +73,7 @@ def upscale_image(image: Image, upscale_options: UpscaleOptions):
 
 
 def get_face_single(img_data: np.ndarray, face_index=0, det_size=(640, 640)):
-    face_analyser = insightface.app.FaceAnalysis(name="buffalo_s", providers=providers)
+    face_analyser = insightface.app.FaceAnalysis(name="buffalo_l", providers=providers)
     face_analyser.prepare(ctx_id=0, det_size=det_size)
     face = face_analyser.get(img_data)
 
