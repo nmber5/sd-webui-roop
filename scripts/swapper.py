@@ -19,8 +19,8 @@ from scripts.roop_logging import logger
 
 providers = ["CUDAExecutionProvider",]
 
-global face_analyser = None
-global face_swapper = None
+global face_analyser
+global face_swapper
 
 @dataclass
 class UpscaleOptions:
