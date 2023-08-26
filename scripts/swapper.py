@@ -19,6 +19,11 @@ from scripts.roop_logging import logger
 
 providers = ["CUDAExecutionProvider",]
 
+face_analyser = insightface.app.FaceAnalysis(name="buffalo_l", providers=providers)
+face_analyser.prepare(ctx_id=0, det_size=(640, 640))
+
+model_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), model)
+face_swapper = getFaceSwapModel(model_path)
 
 @dataclass
 class UpscaleOptions:
@@ -73,8 +78,6 @@ def upscale_image(image: Image, upscale_options: UpscaleOptions):
 
 
 def get_face_single(img_data: np.ndarray, face_index=0, det_size=(640, 640)):
-    face_analyser = insightface.app.FaceAnalysis(name="buffalo_l", providers=providers)
-    face_analyser.prepare(ctx_id=0, det_size=det_size)
     face = face_analyser.get(img_data)
 
     if len(face) == 0 and det_size[0] > 320 and det_size[1] > 320:
@@ -123,8 +126,7 @@ def swap_face(
         source_face = get_face_single(source_img, face_index=0)
         if source_face is not None:
             result = target_img
-            model_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), model)
-            face_swapper = getFaceSwapModel(model_path)
+
 
             for face_num in faces_index:
                 target_face = get_face_single(target_img, face_index=face_num)
